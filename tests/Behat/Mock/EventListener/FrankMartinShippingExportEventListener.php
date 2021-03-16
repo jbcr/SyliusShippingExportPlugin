@@ -29,7 +29,7 @@ final class FrankMartinShippingExportEventListener
             return;
         }
 
-        if (false === self::$success) {
+        if (self::$success === false) {
             $event->addErrorFlash();
 
             return;
@@ -47,7 +47,7 @@ final class FrankMartinShippingExportEventListener
 
     public function mockLabelContent(): string
     {
-        $content = file_get_contents(__DIR__ . '/../../Resources/fixtures/frank_marting_a8d3w12.pdf');
+        $content = file_get_contents(__DIR__.'/../../Resources/fixtures/frank_marting_a8d3w12.pdf');
 
         Assert::string($content);
 

@@ -118,7 +118,7 @@ final class ShippingExportContext implements Context
      */
     public function newShippingExportsShouldBeCreated(string $number): void
     {
-        Assert::eq(count($this->shippingExportRepository->findAll()), $number);
+        Assert::eq(\count($this->shippingExportRepository->findAll()), $number);
     }
 
     public function addShippingExportForGateway(ShipmentInterface $shipment, ShippingGatewayInterface $shippingGateway): void

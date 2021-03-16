@@ -49,7 +49,7 @@ final class PlacingShipmentForGatewayEventListener
         $order = $event->getSubject();
         Assert::isInstanceOf($order, OrderInterface::class);
 
-        if (0 === count($order->getShipments())) {
+        if (\count($order->getShipments()) === 0) {
             return;
         }
 

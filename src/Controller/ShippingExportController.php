@@ -28,7 +28,7 @@ final class ShippingExportController extends ResourceController
     {
         $shippingExports = $this->get('bitbag.repository.shipping_export')->findAllWithNewState();
 
-        if (0 === count($shippingExports)) {
+        if (\count($shippingExports) === 0) {
             $this->addFlash('error', $this->get('translator')->trans('bitbag.ui.no_new_shipments_to_export'));
 
             return $this->redirectToReferer($request);
@@ -50,11 +50,6 @@ final class ShippingExportController extends ResourceController
         return $this->redirectToReferer($request);
     }
 
-    private function redirectToReferer(Request $request): RedirectResponse
-    {
-        return new RedirectResponse($request->headers->get('referer'));
-    }
-
     public function getLabel(Request $request): Response
     {
         $shippingExport = $this->get('bitbag.repository.shipping_export')->find($request->get('id'));
@@ -64,7 +59,7 @@ final class ShippingExportController extends ResourceController
 
         $fileSystem = $this->get('filesystem');
 
-        if (false === $fileSystem->exists($labelPath)) {
+        if ($fileSystem->exists($labelPath) === false) {
             throw new NotFoundHttpException();
         }
 
@@ -78,6 +73,11 @@ final class ShippingExportController extends ResourceController
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
+    }
+
+    private function redirectToReferer(Request $request): RedirectResponse
+    {
+        return new RedirectResponse($request->headers->get('referer'));
     }
 
     private function dispatchExportShipmentEvent(ShippingExportInterface $shippingExport): void

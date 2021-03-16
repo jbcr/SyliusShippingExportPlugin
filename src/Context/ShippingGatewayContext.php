@@ -57,17 +57,14 @@ final class ShippingGatewayContext implements ShippingGatewayContextInterface
         $request = $this->requestStack->getCurrentRequest();
         $id = $request->get('id');
 
-        if (null !== $id) {
+        if ($id !== null) {
             return $this->getExistingShippingGateway((int) $id)->getCode();
         }
 
         $code = $request->get('code');
 
-        if (false === $this->shippingGatewayFormTypeRegistry->has('shipping_gateway_config', $code)) {
-            throw new  ShippingGatewayNotFoundException(sprintf(
-                'Gateway with %s code could not be found',
-                $code
-            ));
+        if ($this->shippingGatewayFormTypeRegistry->has('shipping_gateway_config', $code) === false) {
+            throw new ShippingGatewayNotFoundException(sprintf('Gateway with %s code could not be found', $code));
         }
 
         return $code;
@@ -89,11 +86,8 @@ final class ShippingGatewayContext implements ShippingGatewayContextInterface
         /** @var ShippingGatewayInterface|null $shippingGateway */
         $shippingGateway = $this->shippingGatewayRepository->find($id);
 
-        if (false === $shippingGateway instanceof ShippingGatewayInterface) {
-            throw new  ShippingGatewayNotFoundException(sprintf(
-                'Gateway with %d id could not be found in the database.',
-                $id
-            ));
+        if ($shippingGateway instanceof ShippingGatewayInterface === false) {
+            throw new ShippingGatewayNotFoundException(sprintf('Gateway with %d id could not be found in the database.', $id));
         }
 
         return $shippingGateway;

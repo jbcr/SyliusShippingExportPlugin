@@ -24,7 +24,7 @@ trait ContainsError
     {
         $errors = $this->getDocument()->findAll('css', $errorClass);
 
-        Assert::greaterThan(count($errors), 0, sprintf(
+        Assert::greaterThan(\count($errors), 0, sprintf(
             'No error node elements with %s class were found.',
             $errorClass
         ));
