@@ -40,4 +40,5 @@ bitbag_admin_get_shipping_gateways:
     methods: [GET]
     defaults:
         _controller: bitbag.controller.shipping_gateway:getShippingGatewaysAction
-        template: '@BitBagSyliusShippingExportPlugin/ShippingGateway/Gateways/shippingGateways.html.twig'
+        _sylius:
+            template: '@BitBagSyliusShippingExportPlugin/ShippingGateway/Gateways/shippingGateways.html.twig'
