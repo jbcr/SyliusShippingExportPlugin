@@ -14,6 +14,7 @@ namespace BitBag\SyliusShippingExportPlugin\Controller;
 
 use FOS\RestBundle\View\View;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
+use Sylius\Component\Resource\ResourceActions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,15 +24,16 @@ final class ShippingGatewayController extends ResourceController
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
-        $view = View::create()
-            ->setTemplate($template)
-            ->setTemplateVar($this->metadata->getPluralName())
-            ->setData([
+        if (!$configuration->isHtmlRequest()) {
+            $this->createRestView($configuration, [
                 'shippingGateways' => $this->getParameter('bitbag.shipping_gateways'),
                 'metadata' => $this->metadata,
-            ])
-        ;
+            ]);
+        }
 
-        return $this->viewHandler->handle($configuration, $view);
+        return $this->render($configuration->getTemplate(ResourceActions::UPDATE . '.html'), [
+            'shippingGateways' => $this->getParameter('bitbag.shipping_gateways'),
+            'metadata' => $this->metadata,
+        ]);
     }
 }
